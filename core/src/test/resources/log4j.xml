@@ -1,0 +1,5 @@
+<configuration>
+	<root>
+		<priority value="info"/>
+	</root>
+</configuration>

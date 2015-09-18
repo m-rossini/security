@@ -1,0 +1,30 @@
+
+
+insert into AUTH_USER values ( AUTH_SEQUENCE.nextval, 'A', 'admin', 'admin',
+                              'Administrador', 'Auster', null, null, null );
+
+-- encrypted password is admin123
+insert into AUTH_PASSWD_HISTORY values ( (select OBJID from AUTH_USER where USER_LOGIN = 'admin'),
+                                         '23A294AF985DAFD89F012788B4C65D16', sysdate, sysdate+30, 0, 0, 0, null,
+                                         null, null, null );
+
+
+insert into AUTH_ROLE values (AUTH_SEQUENCE.nextval, 'admin', 0, 'A', 'Administrator role', null, null, null);
+insert into AUTH_ROLE  values (AUTH_SEQUENCE.nextval , 'everyone', 0, 'A', 'Guest role', null, null, null);
+
+insert into AUTH_USER_ROLES values ( (select OBJID from AUTH_USER where USER_LOGIN = 'admin'),
+                                     (select OBJID from AUTH_ROLE where ROLE_NAME = 'admin'),
+                                     sysdate, null );
+
+insert into AUTH_DOMAIN values ( AUTH_SEQUENCE.nextval, 'request.create', 'A', 'Create request', null, null, null );
+insert into AUTH_DOMAIN values ( AUTH_SEQUENCE.nextval, 'request.group.view', 'A', 'View group requests', null, null, null );
+insert into AUTH_DOMAIN values ( AUTH_SEQUENCE.nextval, 'group.view', 'A', 'View groups', null, null, null );
+insert into AUTH_DOMAIN values ( AUTH_SEQUENCE.nextval, 'group.create', 'A', 'Create groups', null, null, null );
+insert into AUTH_DOMAIN values ( AUTH_SEQUENCE.nextval, 'user.update.all', 'A', 'Update any user', null, null, null );
+
+insert into AUTH_DOMAIN_ROLES (
+	select a.OBJID, b.OBJID, sysdate, null
+	from AUTH_DOMAIN a, AUTH_ROLE b
+	where b.ROLE_NAME = 'admin' );
+
+
